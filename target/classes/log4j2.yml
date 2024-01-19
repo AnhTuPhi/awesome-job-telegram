@@ -1,0 +1,34 @@
+Configuration:
+  status: warn
+  Appenders:
+    Console:
+      name: CONSOLE
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: '%d [%t] - %c{1.} - %highlight{%-5level[%L] %notEmpty{- %X{loggingId}}: %replace{%msg}{"[\r\n]"}{''}%n%throwable}{FATAL=Bright red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=black}'
+        disableAnsi: false
+    RollingRandomAccessFile:
+      - name: INFO
+        fileName: log/insurance-api.log
+        filePattern: log/$${date:yyyy-MM}/%d{yyyy-MM-dd}-insurance-api-%i.log.gz
+        PatternLayout:
+          pattern: '%d [%t] - %c{1.} - %-5level[%L] %notEmpty{- %X{loggingId}}: %m%n'
+        Policies:
+          TimeBasedTriggeringPolicy: {
+          }
+          OnStartupTriggeringPolicy: {
+          }
+          SizeBasedTriggeringPolicy:
+            size: 200 MB
+  Loggers:
+    Logger:
+      - name: EventLogger
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: INFO
+    Root:
+      level: info
+      AppenderRef:
+        - ref: CONSOLE
+        - ref: INFO

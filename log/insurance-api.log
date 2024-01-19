@@ -1,0 +1,4 @@
+2024-01-19 14:08:59,808 [main] - v.c.t.t.b.TelegramBotApplication - WARN [21] : Got exception when initialize bot due to 
+2024-01-19 14:08:59,810 [main] - v.c.t.t.b.TelegramBotApplication - INFO [22] : Got exception when initialize bot due to 
+2024-01-19 14:08:59,811 [main] - v.c.t.t.b.TelegramBotApplication - ERROR[24] : Got exception when initialize bot due to 
+2024-01-19 14:09:00,525 [main] - v.c.t.t.b.h.MessageHandler - INFO [51] : trigger onRegister
