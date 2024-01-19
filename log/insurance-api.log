@@ -1,4 +1,20 @@
-2024-01-19 14:08:59,808 [main] - v.c.t.t.b.TelegramBotApplication - WARN [21] : Got exception when initialize bot due to 
-2024-01-19 14:08:59,810 [main] - v.c.t.t.b.TelegramBotApplication - INFO [22] : Got exception when initialize bot due to 
-2024-01-19 14:08:59,811 [main] - v.c.t.t.b.TelegramBotApplication - ERROR[24] : Got exception when initialize bot due to 
-2024-01-19 14:09:00,525 [main] - v.c.t.t.b.h.MessageHandler - INFO [51] : trigger onRegister
+2024-01-19 17:53:23,168 [main] - v.c.t.t.b.h.AwesomeJobHandler - INFO [56] : trigger onRegister
+2024-01-19 17:53:37,635 [awesome_jobs_bot Telegram Executor] - v.c.t.t.b.h.AwesomeJobHandler - INFO [45] : hmmmmm {"update_id":485802694,"my_chat_member":{"chat":{"id":-1002024018358,"type":"supergroup","title":"Test"},"from":{"id":935506130,"first_name":"AnhTu","is_bot":false,"username":"TuPhi","language_code":"en"},"date":1705661618,"old_chat_member":{"status":"member","user":{"id":6760481369,"first_name":"Vietnam Jobs","is_bot":true,"username":"vietnam_jobs_bot"}},"new_chat_member":{"status":"left","user":{"id":6760481369,"first_name":"Vietnam Jobs","is_bot":true,"username":"vietnam_jobs_bot"}}}}
+2024-01-19 17:53:37,637 [awesome_jobs_bot Telegram Executor] - o.t.t.u.DefaultBotSession - ERROR[317] : null
+java.lang.NullPointerException: null
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.handleInitFollowingChatIDs(AwesomeJobHandler.java:112) ~[classes/:?]
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.handleIncomingMessage(AwesomeJobHandler.java:67) ~[classes/:?]
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.onUpdateReceived(AwesomeJobHandler.java:46) ~[classes/:?]
+	at java.util.ArrayList.forEach(ArrayList.java:1541) ~[?:?]
+	at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27) ~[telegrambots-meta-6.5.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312) [telegrambots-6.5.0.jar:?]
+2024-01-19 17:53:43,774 [awesome_jobs_bot Telegram Executor] - v.c.t.t.b.h.AwesomeJobHandler - INFO [45] : hmmmmm {"update_id":485802695,"my_chat_member":{"chat":{"id":-1002024018358,"type":"supergroup","title":"Test"},"from":{"id":935506130,"first_name":"AnhTu","is_bot":false,"username":"TuPhi","language_code":"en"},"date":1705661624,"old_chat_member":{"status":"left","user":{"id":6760481369,"first_name":"Vietnam Jobs","is_bot":true,"username":"vietnam_jobs_bot"}},"new_chat_member":{"status":"member","user":{"id":6760481369,"first_name":"Vietnam Jobs","is_bot":true,"username":"vietnam_jobs_bot"}}}}
+2024-01-19 17:53:43,775 [awesome_jobs_bot Telegram Executor] - o.t.t.u.DefaultBotSession - ERROR[317] : null
+java.lang.NullPointerException: null
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.handleInitFollowingChatIDs(AwesomeJobHandler.java:112) ~[classes/:?]
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.handleIncomingMessage(AwesomeJobHandler.java:67) ~[classes/:?]
+	at vn.com.tech.telegram.bot.handlers.AwesomeJobHandler.onUpdateReceived(AwesomeJobHandler.java:46) ~[classes/:?]
+	at java.util.ArrayList.forEach(ArrayList.java:1541) ~[?:?]
+	at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27) ~[telegrambots-meta-6.5.0.jar:?]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312) [telegrambots-6.5.0.jar:?]
+2024-01-19 17:53:44,073 [awesome_jobs_bot Telegram Executor] - v.c.t.t.b.h.AwesomeJobHandler - INFO [45] : hmmmmm {"update_id":485802696,"message":{"message_id":9,"from":{"id":935506130,"first_name":"AnhTu","is_bot":false,"username":"TuPhi","language_code":"en"},"date":1705661624,"chat":{"id":-1002024018358,"type":"supergroup","title":"Test"},"new_chat_members":[{"id":6760481369,"first_name":"Vietnam Jobs","is_bot":true,"username":"vietnam_jobs_bot"}]}}

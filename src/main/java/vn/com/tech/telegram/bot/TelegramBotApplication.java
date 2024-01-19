@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import vn.com.tech.telegram.bot.handlers.MessageHandler;
+import vn.com.tech.telegram.bot.handlers.AwesomeJobHandler;
 
 /**
  * @author Admin
@@ -24,7 +24,7 @@ public class TelegramBotApplication {
     public static void initializeBot() {
         try {
             TelegramBotsApi telegramBotApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotApi.registerBot(new MessageHandler());
+            telegramBotApi.registerBot(new AwesomeJobHandler());
         } catch (TelegramApiException e){
             logger.error("Got exception when initialize bot due to ", e.getMessage());
         }
