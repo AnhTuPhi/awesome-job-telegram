@@ -9,10 +9,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import vn.com.tech.telegram.bot.util.JsonMapper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * @author Admin
@@ -26,13 +31,13 @@ public class AwesomeJobHandler extends TelegramLongPollingBot {
     /**
      * Define list of following ids
      */
-    public static final List<Long> followingChatIds = new ArrayList<>();
+    public static final Set<Long> followingChatIds = new HashSet<>();
 
     public static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     public AwesomeJobHandler() {
         super("6760481369:AAEqeLf-KjCH1efjQcLH1QWlQRC4dtMMiZ0");
-        scheduledExecutorService.scheduleAtFixedRate(this::sendLatestJob, 0,1 , TimeUnit.MINUTES);
+        scheduledExecutorService.scheduleAtFixedRate(this::sendLatestJob, 0, 1, TimeUnit.MINUTES);
     }
 
     /**
@@ -65,13 +70,16 @@ public class AwesomeJobHandler extends TelegramLongPollingBot {
         handleExecuteDirectMessage(update);
         handleExecuteChannelMessage(update);
         handleInitFollowingChatIDs(update);
+        handleUnFollowGroupOrChannel(update);
     }
 
     private void handleExecuteDirectMessage(Update update) {
-        if (!update.hasMessage() || !update.getMessage().hasText() || !update.getMessage().getChat().isUserChat()) {
+        if (Boolean.FALSE.equals(update.hasMessage())
+                || Boolean.FALSE.equals(update.getMessage().hasText())
+                || isNull(update.getMessage().getChat())
+                || Boolean.FALSE.equals(update.getMessage().getChat().isUserChat())) {
             return;
         }
-
         logger.info("handleExecuteDirectMessage onEvent {}", JsonMapper.write(update));
 
         SendMessage message = new SendMessage();
@@ -81,15 +89,18 @@ public class AwesomeJobHandler extends TelegramLongPollingBot {
         try {
             execute(message); // Call method to send the message
         } catch (TelegramApiException e) {
-            logger.error("Got exception when sending msg due to ", e.getMessage());
+            logger.error("Got exception when sending msg due to {}", e.getMessage());
         }
     }
 
     private void handleExecuteChannelMessage(Update update) {
-        if (!update.hasChannelPost() || !update.getChannelPost().hasText() || !update.getMessage().getChat().isChannelChat()) {
+        if (Boolean.FALSE.equals(update.hasChannelPost())
+                || Boolean.FALSE.equals(update.getChannelPost().hasText())
+                || isNull(update.getMessage())
+                || isNull(update.getMessage().getChat())
+                || Boolean.FALSE.equals(update.getMessage().getChat().isChannelChat())) {
             return;
         }
-
         logger.info("handleExecuteChannelMessage onEvent {}", JsonMapper.write(update));
 
         //prepare data
@@ -104,20 +115,28 @@ public class AwesomeJobHandler extends TelegramLongPollingBot {
         try {
             execute(message); // Call method to send the message
         } catch (TelegramApiException e) {
-            logger.error("Got exception when sending msg due to ", e.getMessage());
+            logger.error("Got exception when sending msg due to {}", e.getMessage());
         }
     }
 
     private void handleInitFollowingChatIDs(Update update) {
-        if (!update.getMessage().getChat().isGroupChat() && !update.getMessage().getChat().isSuperGroupChat()) {
+        if (isNull(update.getMessage())
+                || isNull(update.getMessage().getNewChatMembers())) {
+            return;
+        }
+
+        var newMembers = update.getMessage().getNewChatMembers();
+        var optNewBot = newMembers.stream().filter(member -> Boolean.TRUE.equals(member.getIsBot())).findAny();
+        if (optNewBot.isEmpty()) {
             return;
         }
 
         var chatId = update.getMessage().getChat().getId();
         followingChatIds.add(chatId);
+        logger.info("followingChatIds add chat id: {}", chatId);
     }
 
-    private void sendLatestJob(){
+    private void sendLatestJob() {
         followingChatIds.forEach(groupChatId -> {
             SendMessage message = new SendMessage();
             message.setChatId(String.valueOf(groupChatId));
@@ -127,8 +146,19 @@ public class AwesomeJobHandler extends TelegramLongPollingBot {
                 execute(message); // Call method to send the message
                 logger.info("send msg to group already");
             } catch (TelegramApiException e) {
-                logger.error("Got exception when sending msg due to ", e.getMessage());
+                logger.error("Got exception when sending msg due to {}", e.getMessage());
             }
         });
+    }
+
+    private void handleUnFollowGroupOrChannel(Update update) {
+        if (isNull(update.getMessage())
+                || isNull(update.getMessage().getLeftChatMember())
+                || Boolean.FALSE.equals(update.getMessage().getLeftChatMember().getIsBot())) {
+            return;
+        }
+        var chatId = update.getMessage().getChat().getId();
+        followingChatIds.remove(chatId);
+        logger.info("followingChatIds remove chat id: {}", chatId);
     }
 }
